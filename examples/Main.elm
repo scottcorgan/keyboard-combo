@@ -19,6 +19,7 @@ keyboardCombos : List (Keyboard.Combo.KeyCombo Msg)
 keyboardCombos =
     [ Keyboard.Combo.combo2 ( Keyboard.Combo.control, Keyboard.Combo.s ) Save
     , Keyboard.Combo.combo2 ( Keyboard.Combo.control, Keyboard.Combo.a ) SelectAll
+    , Keyboard.Combo.combo3 ( Keyboard.Combo.control, Keyboard.Combo.alt, Keyboard.Combo.e ) RandomThing
     ]
 
 
@@ -56,6 +57,7 @@ type alias Model =
 type Msg
     = Save
     | SelectAll
+    | RandomThing
     | ComboMsg Keyboard.Combo.Msg
 
 
@@ -67,6 +69,9 @@ update msg model =
 
         SelectAll ->
             { model | content = "Select All" } ! []
+
+        RandomThing ->
+            { model | content = "Random Thing" } ! []
 
         ComboMsg msg ->
             let
@@ -87,6 +92,7 @@ view model =
         , ul []
             [ li [] [ text "Save: Ctrl+s" ]
             , li [] [ text "Select All: Ctrl+a" ]
+            , li [] [ text "Random Thing: Ctrl+Alt+e" ]
             ]
         , div []
             [ strong [] [ text "Current command: " ]
