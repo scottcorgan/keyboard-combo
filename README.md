@@ -1,12 +1,12 @@
-# elm-keyboard-combo
+# Keyboard Combo
 
-Handle keyboard key combinations with type safety
+Handle keyboard key combinations with type safety in Elm
 
 **Note:** Not every key is implemented yet. Please open a PR if one is missing.
 
 ## Usage
 
-Usage example taken from [Example in _examples_ directory](https://github.com/scottcorgan/elm-keyboard-combo/tree/master/examples)
+Usage example taken from [Example in _examples_ directory](https://github.com/scottcorgan/keyboard-combo/tree/master/examples)
 
 ```elm
 module Main exposing (..)

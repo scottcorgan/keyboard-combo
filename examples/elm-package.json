@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
-    "summary": "Examples for elm-keyboard-combo",
-    "repository": "https://github.com/scottcorgan/elm-keyboard-combo.git",
+    "summary": "Examples for Keyboard Combo",
+    "repository": "https://github.com/scottcorgan/keyboard-combo.git",
     "license": "BSD3",
     "source-directories": [
         "../src"

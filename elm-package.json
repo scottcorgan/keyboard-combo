@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
-    "summary": "git@github.com:scottcorgan/elm-keyboard-combo.git",
-    "repository": "https://github.com/scottcorgan/elm-keyboard-combo.git",
+    "summary": "Handle keyboard key combinations with type safety in Elm",
+    "repository": "https://github.com/scottcorgan/keyboard-combo.git",
     "license": "BSD3",
     "source-directories": [
         "./src"
