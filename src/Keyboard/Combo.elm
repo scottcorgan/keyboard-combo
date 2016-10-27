@@ -264,175 +264,175 @@ a =
 -}
 b : Keyboard.Extra.Key
 b =
-    Keyboard.Extra.CharA
+    Keyboard.Extra.CharB
 
 
 {-| Letter helper for 'c'
 -}
 c : Keyboard.Extra.Key
 c =
-    Keyboard.Extra.CharA
+    Keyboard.Extra.CharC
 
 
 {-| Letter helper for 'd'
 -}
 d : Keyboard.Extra.Key
 d =
-    Keyboard.Extra.CharA
+    Keyboard.Extra.CharD
 
 
 {-| Letter helper for 'e'
 -}
 e : Keyboard.Extra.Key
 e =
-    Keyboard.Extra.CharA
+    Keyboard.Extra.CharE
 
 
 {-| Letter helper for 'f'
 -}
 f : Keyboard.Extra.Key
 f =
-    Keyboard.Extra.CharA
+    Keyboard.Extra.CharF
 
 
 {-| Letter helper for 'g'
 -}
 g : Keyboard.Extra.Key
 g =
-    Keyboard.Extra.CharA
+    Keyboard.Extra.CharG
 
 
 {-| Letter helper for 'h'
 -}
 h : Keyboard.Extra.Key
 h =
-    Keyboard.Extra.CharA
+    Keyboard.Extra.CharH
 
 
 {-| Letter helper for 'i'
 -}
 i : Keyboard.Extra.Key
 i =
-    Keyboard.Extra.CharA
+    Keyboard.Extra.CharI
 
 
 {-| Letter helper for 'j'
 -}
 j : Keyboard.Extra.Key
 j =
-    Keyboard.Extra.CharA
+    Keyboard.Extra.CharJ
 
 
 {-| Letter helper for 'k'
 -}
 k : Keyboard.Extra.Key
 k =
-    Keyboard.Extra.CharA
+    Keyboard.Extra.CharK
 
 
 {-| Letter helper for 'l'
 -}
 l : Keyboard.Extra.Key
 l =
-    Keyboard.Extra.CharA
+    Keyboard.Extra.CharL
 
 
 {-| Letter helper for 'm'
 -}
 m : Keyboard.Extra.Key
 m =
-    Keyboard.Extra.CharA
+    Keyboard.Extra.CharM
 
 
 {-| Letter helper for 'n'
 -}
 n : Keyboard.Extra.Key
 n =
-    Keyboard.Extra.CharA
+    Keyboard.Extra.CharN
 
 
 {-| Letter helper for 'o'
 -}
 o : Keyboard.Extra.Key
 o =
-    Keyboard.Extra.CharA
+    Keyboard.Extra.CharO
 
 
 {-| Letter helper for 'p'
 -}
 p : Keyboard.Extra.Key
 p =
-    Keyboard.Extra.CharA
+    Keyboard.Extra.CharP
 
 
 {-| Letter helper for 'q'
 -}
 q : Keyboard.Extra.Key
 q =
-    Keyboard.Extra.CharA
+    Keyboard.Extra.CharQ
 
 
 {-| Letter helper for 'r'
 -}
 r : Keyboard.Extra.Key
 r =
-    Keyboard.Extra.CharA
+    Keyboard.Extra.CharR
 
 
 {-| Letter helper for 's'
 -}
 s : Keyboard.Extra.Key
 s =
-    Keyboard.Extra.CharA
+    Keyboard.Extra.CharS
 
 
 {-| Letter helper for 't'
 -}
 t : Keyboard.Extra.Key
 t =
-    Keyboard.Extra.CharA
+    Keyboard.Extra.CharT
 
 
 {-| Letter helper for 'u'
 -}
 u : Keyboard.Extra.Key
 u =
-    Keyboard.Extra.CharA
+    Keyboard.Extra.CharU
 
 
 {-| Letter helper for 'v'
 -}
 v : Keyboard.Extra.Key
 v =
-    Keyboard.Extra.CharA
+    Keyboard.Extra.CharV
 
 
 {-| Letter helper for 'w'
 -}
 w : Keyboard.Extra.Key
 w =
-    Keyboard.Extra.CharA
+    Keyboard.Extra.CharW
 
 
 {-| Letter helper for 'x'
 -}
 x : Keyboard.Extra.Key
 x =
-    Keyboard.Extra.CharA
+    Keyboard.Extra.CharX
 
 
 {-| Letter helper for 'y'
 -}
 y : Keyboard.Extra.Key
 y =
-    Keyboard.Extra.CharA
+    Keyboard.Extra.CharY
 
 
 {-| Letter helper for 'z'
 -}
 z : Keyboard.Extra.Key
 z =
-    Keyboard.Extra.CharA
+    Keyboard.Extra.CharZ
 
 
 
