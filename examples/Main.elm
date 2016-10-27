@@ -15,8 +15,8 @@ main =
         }
 
 
-combos : List (Keyboard.Combo.KeyCombo Msg)
-combos =
+keyboardCombos : List (Keyboard.Combo.KeyCombo Msg)
+keyboardCombos =
     [ Keyboard.Combo.combo2 ( Keyboard.Combo.control, Keyboard.Combo.s ) Save
     , Keyboard.Combo.combo2 ( Keyboard.Combo.control, Keyboard.Combo.a ) SelectAll
     ]
@@ -28,15 +28,10 @@ combos =
 
 init : ( Model, Cmd Msg )
 init =
-    let
-        m =
-            Keyboard.Combo.init ComboMsg []
-    in
-        { combos =
-            Keyboard.Combo.init ComboMsg combos
-        , content = "Not combo yet"
-        }
-            ! []
+    { combos = Keyboard.Combo.init ComboMsg keyboardCombos
+    , content = "Not combo yet"
+    }
+        ! []
 
 
 subscriptions : Model -> Sub Msg
