@@ -1,6 +1,7 @@
 module Keyboard.Combo
     exposing
         ( KeyCombo
+        , Key
         , Model
         , Msg
         , update
@@ -20,6 +21,8 @@ module Keyboard.Combo
         , tab
         , escape
         , space
+        , backspace
+        , delete
         , a
         , b
         , c
@@ -56,13 +59,28 @@ module Keyboard.Combo
         , seven
         , eight
         , nine
+        , left
+        , right
+        , up
+        , down
+        , period
+        , comma
+        , semicolon
+        , singleQuote
+        , minus
+        , equals
+        , openBracket
+        , closeBracket
+        , backSlash
+        , forwardSlash
+        , backTick
         )
 
 {-| Provides helpers to call messages on the given key combinations
 
 ## Types
 
-@docs Model, Msg, KeyCombo
+@docs Model, Msg, KeyCombo, Key
 
 ## Setup
 
@@ -115,7 +133,7 @@ module Keyboard.Combo
 
 ## Modifiers
 
-@docs super, command, shift, control, alt, option, enter, tab, escape, space
+@docs super, command, shift, control, alt, option, enter, tab, escape, space, backspace, delete
 
 
 ## Letters
@@ -125,6 +143,15 @@ module Keyboard.Combo
 ## Number Helpers
 
 @docs zero, one, two, three, four, five, six, seven, eight, nine
+
+## Arrow Helpers
+
+@docs left, right, up, down
+
+
+## Punctuation
+
+@docs period, comma, semicolon, singleQuote, minus, equals, openBracket, closeBracket, backSlash, forwardSlash, backTick
 -}
 
 import Keyboard.Extra
@@ -142,13 +169,19 @@ type alias Model msg =
     }
 
 
+{-| Each key uses this type
+-}
+type alias Key =
+    Keyboard.Extra.Key
+
+
 {-| Combo length types
 -}
 type KeyCombo msg
-    = KeyCombo Keyboard.Extra.Key msg
-    | KeyCombo2 Keyboard.Extra.Key Keyboard.Extra.Key msg
-    | KeyCombo3 Keyboard.Extra.Key Keyboard.Extra.Key Keyboard.Extra.Key msg
-    | KeyCombo4 Keyboard.Extra.Key Keyboard.Extra.Key Keyboard.Extra.Key Keyboard.Extra.Key msg
+    = KeyCombo Key msg
+    | KeyCombo2 Key Key msg
+    | KeyCombo3 Key Key Key msg
+    | KeyCombo4 Key Key Key Key msg
 
 
 
@@ -206,28 +239,28 @@ update msg model =
 
 {-| Helper to define a key combo of one key
 -}
-combo1 : Keyboard.Extra.Key -> msg -> KeyCombo msg
+combo1 : Key -> msg -> KeyCombo msg
 combo1 key msg =
     KeyCombo key msg
 
 
 {-| Helper to define a key combo of two keys
 -}
-combo2 : ( Keyboard.Extra.Key, Keyboard.Extra.Key ) -> msg -> KeyCombo msg
+combo2 : ( Key, Key ) -> msg -> KeyCombo msg
 combo2 ( key1, key2 ) msg =
     KeyCombo2 key1 key2 msg
 
 
 {-| Helper to define a key combo of three keys
 -}
-combo3 : ( Keyboard.Extra.Key, Keyboard.Extra.Key, Keyboard.Extra.Key ) -> msg -> KeyCombo msg
+combo3 : ( Key, Key, Key ) -> msg -> KeyCombo msg
 combo3 ( key1, key2, key3 ) msg =
     KeyCombo3 key1 key2 key3 msg
 
 
 {-| Helper to define a key combo of four keys
 -}
-combo4 : ( Keyboard.Extra.Key, Keyboard.Extra.Key, Keyboard.Extra.Key, Keyboard.Extra.Key ) -> msg -> KeyCombo msg
+combo4 : ( Key, Key, Key, Key ) -> msg -> KeyCombo msg
 combo4 ( key1, key2, key3, key4 ) msg =
     KeyCombo4 key1 key2 key3 key4 msg
 
@@ -238,72 +271,86 @@ combo4 ( key1, key2, key3, key4 ) msg =
 
 {-| Helper for super key
 -}
-super : Keyboard.Extra.Key
+super : Key
 super =
     Keyboard.Extra.Super
 
 
 {-| Helper for macOS command key
 -}
-command : Keyboard.Extra.Key
+command : Key
 command =
     super
 
 
 {-| Helper for shift key
 -}
-shift : Keyboard.Extra.Key
+shift : Key
 shift =
     Keyboard.Extra.Shift
 
 
 {-| Helper for alt key
 -}
-alt : Keyboard.Extra.Key
+alt : Key
 alt =
     Keyboard.Extra.Alt
 
 
 {-| Helper for macOS option key
 -}
-option : Keyboard.Extra.Key
+option : Key
 option =
     alt
 
 
 {-| Helper for control key
 -}
-control : Keyboard.Extra.Key
+control : Key
 control =
     Keyboard.Extra.Control
 
 
 {-| Helper for enter key
 -}
-enter : Keyboard.Extra.Key
+enter : Key
 enter =
     Keyboard.Extra.Enter
 
 
 {-| Helper for tab key
 -}
-tab : Keyboard.Extra.Key
+tab : Key
 tab =
     Keyboard.Extra.Tab
 
 
 {-| Helper for escape key
 -}
-escape : Keyboard.Extra.Key
+escape : Key
 escape =
     Keyboard.Extra.Escape
 
 
 {-| Helper for space key
 -}
-space : Keyboard.Extra.Key
+space : Key
 space =
     Keyboard.Extra.Space
+
+
+{-| Helper for backspace key
+-}
+backspace : Key
+backspace =
+    Keyboard.Extra.BackSpace
+
+
+{-| Helper for delete key
+-}
+delete : Key
+delete =
+    Keyboard.Extra.Delete
 
 
 
@@ -311,157 +358,157 @@ space =
 
 
 {-| -}
-a : Keyboard.Extra.Key
+a : Key
 a =
     Keyboard.Extra.CharA
 
 
 {-| -}
-b : Keyboard.Extra.Key
+b : Key
 b =
     Keyboard.Extra.CharB
 
 
 {-| -}
-c : Keyboard.Extra.Key
+c : Key
 c =
     Keyboard.Extra.CharC
 
 
 {-| -}
-d : Keyboard.Extra.Key
+d : Key
 d =
     Keyboard.Extra.CharD
 
 
 {-| -}
-e : Keyboard.Extra.Key
+e : Key
 e =
     Keyboard.Extra.CharE
 
 
 {-| -}
-f : Keyboard.Extra.Key
+f : Key
 f =
     Keyboard.Extra.CharF
 
 
 {-| -}
-g : Keyboard.Extra.Key
+g : Key
 g =
     Keyboard.Extra.CharG
 
 
 {-| -}
-h : Keyboard.Extra.Key
+h : Key
 h =
     Keyboard.Extra.CharH
 
 
 {-| -}
-i : Keyboard.Extra.Key
+i : Key
 i =
     Keyboard.Extra.CharI
 
 
 {-| -}
-j : Keyboard.Extra.Key
+j : Key
 j =
     Keyboard.Extra.CharJ
 
 
 {-| -}
-k : Keyboard.Extra.Key
+k : Key
 k =
     Keyboard.Extra.CharK
 
 
 {-| -}
-l : Keyboard.Extra.Key
+l : Key
 l =
     Keyboard.Extra.CharL
 
 
 {-| -}
-m : Keyboard.Extra.Key
+m : Key
 m =
     Keyboard.Extra.CharM
 
 
 {-| -}
-n : Keyboard.Extra.Key
+n : Key
 n =
     Keyboard.Extra.CharN
 
 
 {-| -}
-o : Keyboard.Extra.Key
+o : Key
 o =
     Keyboard.Extra.CharO
 
 
 {-| -}
-p : Keyboard.Extra.Key
+p : Key
 p =
     Keyboard.Extra.CharP
 
 
 {-| -}
-q : Keyboard.Extra.Key
+q : Key
 q =
     Keyboard.Extra.CharQ
 
 
 {-| -}
-r : Keyboard.Extra.Key
+r : Key
 r =
     Keyboard.Extra.CharR
 
 
 {-| -}
-s : Keyboard.Extra.Key
+s : Key
 s =
     Keyboard.Extra.CharS
 
 
 {-| -}
-t : Keyboard.Extra.Key
+t : Key
 t =
     Keyboard.Extra.CharT
 
 
 {-| -}
-u : Keyboard.Extra.Key
+u : Key
 u =
     Keyboard.Extra.CharU
 
 
 {-| -}
-v : Keyboard.Extra.Key
+v : Key
 v =
     Keyboard.Extra.CharV
 
 
 {-| -}
-w : Keyboard.Extra.Key
+w : Key
 w =
     Keyboard.Extra.CharW
 
 
 {-| -}
-x : Keyboard.Extra.Key
+x : Key
 x =
     Keyboard.Extra.CharX
 
 
 {-| -}
-y : Keyboard.Extra.Key
+y : Key
 y =
     Keyboard.Extra.CharY
 
 
 {-| -}
-z : Keyboard.Extra.Key
+z : Key
 z =
     Keyboard.Extra.CharZ
 
@@ -471,70 +518,179 @@ z =
 
 
 {-| -}
-zero : Keyboard.Extra.Key
+zero : Key
 zero =
     Keyboard.Extra.Number0
 
 
 {-| -}
-one : Keyboard.Extra.Key
+one : Key
 one =
     Keyboard.Extra.Number1
 
 
 {-| -}
-two : Keyboard.Extra.Key
+two : Key
 two =
     Keyboard.Extra.Number2
 
 
 {-| -}
-three : Keyboard.Extra.Key
+three : Key
 three =
     Keyboard.Extra.Number3
 
 
 {-| -}
-four : Keyboard.Extra.Key
+four : Key
 four =
     Keyboard.Extra.Number4
 
 
 {-| -}
-five : Keyboard.Extra.Key
+five : Key
 five =
     Keyboard.Extra.Number5
 
 
 {-| -}
-six : Keyboard.Extra.Key
+six : Key
 six =
     Keyboard.Extra.Number6
 
 
 {-| -}
-seven : Keyboard.Extra.Key
+seven : Key
 seven =
     Keyboard.Extra.Number7
 
 
 {-| -}
-eight : Keyboard.Extra.Key
+eight : Key
 eight =
     Keyboard.Extra.Number8
 
 
 {-| -}
-nine : Keyboard.Extra.Key
+nine : Key
 nine =
     Keyboard.Extra.Number9
+
+
+
+-- Arrow helpers
+
+
+{-| -}
+left : Key
+left =
+    Keyboard.Extra.ArrowLeft
+
+
+{-| -}
+right : Key
+right =
+    Keyboard.Extra.ArrowRight
+
+
+{-| -}
+up : Key
+up =
+    Keyboard.Extra.ArrowUp
+
+
+{-| -}
+down : Key
+down =
+    Keyboard.Extra.ArrowDown
+
+
+
+-- Punctuation Helpers
+
+
+{-| Helper for a `.`
+-}
+period : Key
+period =
+    Keyboard.Extra.Period
+
+
+{-| Helper for a `,`
+-}
+comma : Key
+comma =
+    Keyboard.Extra.Comma
+
+
+{-| Helper for a `;`
+-}
+semicolon : Key
+semicolon =
+    Keyboard.Extra.Semicolon
+
+
+{-| Helper for a `'`
+-}
+singleQuote : Key
+singleQuote =
+    Keyboard.Extra.Quote
+
+
+{-| Helper for a `-`
+-}
+minus : Key
+minus =
+    Keyboard.Extra.Minus
+
+
+{-| Helper for a `=`
+-}
+equals : Key
+equals =
+    Keyboard.Extra.Equals
+
+
+{-| Helper for a `[`
+-}
+openBracket : Key
+openBracket =
+    Keyboard.Extra.OpenBracket
+
+
+{-| Helper for a `]`
+-}
+closeBracket : Key
+closeBracket =
+    Keyboard.Extra.CloseBracket
+
+
+{-| Helper for a `\`
+-}
+backSlash : Key
+backSlash =
+    Keyboard.Extra.BackSlash
+
+
+{-| Helper for a `/`
+-}
+forwardSlash : Key
+forwardSlash =
+    Keyboard.Extra.Quote
+
+
+{-| Helper for a `` ` ``
+-}
+backTick : Key
+backTick =
+    Keyboard.Extra.BackQuote
 
 
 
 -- Utils
 
 
-arePressed : Keyboard.Extra.Model -> List Keyboard.Extra.Key -> Bool
+arePressed : Keyboard.Extra.Model -> List Key -> Bool
 arePressed keyTracker keysPressed =
     List.all
         (\key -> Keyboard.Extra.isPressed key keyTracker)
@@ -546,7 +702,7 @@ matchesCombo model =
     find (\combo -> arePressed model.keys <| keyList combo) model.combos
 
 
-keyList : KeyCombo msg -> List Keyboard.Extra.Key
+keyList : KeyCombo msg -> List Key
 keyList combo =
     case combo of
         KeyCombo key msg ->
