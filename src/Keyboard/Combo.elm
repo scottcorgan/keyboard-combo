@@ -192,7 +192,7 @@ type KeyCombo msg
 -}
 init : (Msg -> msg) -> List (KeyCombo msg) -> Model msg
 init msg combos =
-    { keys = Keyboard.Extra.init |> fst
+    { keys = Keyboard.Extra.init |> Tuple.first
     , combos = combos
     , toMsg = msg
     }
@@ -225,7 +225,7 @@ update msg model =
             let
                 updatedKeys =
                     Keyboard.Extra.update msg model.keys
-                        |> fst
+                        |> Tuple.first
             in
                 { model | keys = updatedKeys }
 
