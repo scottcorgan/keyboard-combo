@@ -12,13 +12,12 @@ Usage example taken from [Example in _examples_ directory](https://github.com/sc
 module Main exposing (..)
 
 import Html exposing (..)
-import Html.App
 import Keyboard.Combo
 
 
-main : Program Never
+main : Program Never Model Msg
 main =
-    Html.App.program
+    Html.program
         { subscriptions = subscriptions
         , init = init
         , update = update
