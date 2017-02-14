@@ -2,6 +2,8 @@
 
 Handle keyboard key combinations with type safety in Elm
 
+[Check out the demo](https://embed.ellie-app.com/n3mVWz5gzJ/0)
+
 **Note:** Not every key is implemented yet. Please open a PR if one is missing.
 
 ## Usage
