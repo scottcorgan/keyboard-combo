@@ -87,7 +87,7 @@ module Keyboard.Combo
     import Keyboard.Combo
 
     type alias Model =
-        { combos : Keyboard.Combo.Model Msg }
+        { keys : Keyboard.Combo.Model Msg }
 
     type Msg
         = Save
@@ -104,12 +104,15 @@ module Keyboard.Combo
 
     init : ( Model, Cmd Msg )
     init =
-        { combos = Keyboard.Combo.init ComboMsg keyboardCombos } ! []
+        { keys =
+            Keyboard.Combo.init { toMsg = ComboMsg , combos = keyboardCombos }
+        }
+            ! []
 
 
     subscriptions : Model -> Sub Msg
     subscriptions model =
-        Keyboard.Combo.subscriptions model.combos
+        Keyboard.Combo.subscriptions model.keys
 
 @docs init, subscriptions, update
 
@@ -163,7 +166,7 @@ import Keyboard.Extra
 {-| Internal state that keeps track of keys currently pressed and key combos
 -}
 type alias Model msg =
-    { keys : Keyboard.Extra.Model
+    { keys : Keyboard.Extra.State
     , combos : List (KeyCombo msg)
     , toMsg : Msg -> msg
     }
@@ -190,11 +193,11 @@ type KeyCombo msg
 
 {-| Initialize the module
 -}
-init : (Msg -> msg) -> List (KeyCombo msg) -> Model msg
-init msg combos =
-    { keys = Keyboard.Extra.init |> Tuple.first
-    , combos = combos
-    , toMsg = msg
+init : { a | toMsg : Msg -> msg, combos : List (KeyCombo msg) } -> Model msg
+init config =
+    { keys = Keyboard.Extra.initialState
+    , combos = config.combos
+    , toMsg = config.toMsg
     }
 
 
@@ -202,7 +205,8 @@ init msg combos =
 -}
 subscriptions : Model parentMsg -> Sub parentMsg
 subscriptions model =
-    mapMsgFromCombos model <| Sub.map KeyboardMsg Keyboard.Extra.subscriptions
+    mapMsgFromCombos model <|
+        Sub.map KeyboardMsg Keyboard.Extra.subscriptions
 
 
 
@@ -222,15 +226,10 @@ update : Msg -> Model msg -> Model msg
 update msg model =
     case msg of
         KeyboardMsg msg ->
-            let
-                updatedKeys =
-                    Keyboard.Extra.update msg model.keys
-                        |> Tuple.first
-            in
-                { model | keys = updatedKeys }
+            { model | keys = Keyboard.Extra.update msg model.keys }
 
         Reset ->
-            init model.toMsg model.combos
+            init model
 
 
 
@@ -690,7 +689,7 @@ backTick =
 -- Utils
 
 
-arePressed : Keyboard.Extra.Model -> List Key -> Bool
+arePressed : Keyboard.Extra.State -> List Key -> Bool
 arePressed keyTracker keysPressed =
     List.all
         (\key -> Keyboard.Extra.isPressed key keyTracker)
