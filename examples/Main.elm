@@ -77,7 +77,11 @@ update msg model =
             { model | content = "Random Thing" } ! []
 
         ComboMsg msg ->
-            { model | keys = Keyboard.Combo.update msg model.keys } ! []
+            let
+                ( keys, cmd ) =
+                    Keyboard.Combo.update msg model.keys
+            in
+                ( { model | keys = keys }, cmd )
 
 
 
