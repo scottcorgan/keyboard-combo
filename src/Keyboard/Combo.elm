@@ -221,7 +221,18 @@ type alias Msg =
     Keyboard.Extra.Msg
 
 
-{-| Update the internal model
+{-| Update the internal model. The command should be forwarded by the parent `update`.
+
+    update : Msg -> Model -> ( Model, Cmd Msg )
+    update msg model =
+        case msg of
+            ComboMsg msg ->
+                let
+                    ( updatedKeys, comboCmd ) =
+                        Keyboard.Combo.update msg model.keys
+                in
+                    ( { model | keys = updatedKeys }, comboCmd )
+
 -}
 update : Msg -> Model msg -> ( Model msg, Cmd msg )
 update msg model =

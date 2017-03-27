@@ -78,10 +78,10 @@ update msg model =
 
         ComboMsg msg ->
             let
-                ( keys, cmd ) =
+                ( updatedKeys, comboCmd ) =
                     Keyboard.Combo.update msg model.keys
             in
-                ( { model | keys = keys }, cmd )
+                ( { model | keys = updatedKeys }, comboCmd )
 
 
 
