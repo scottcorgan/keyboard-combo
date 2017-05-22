@@ -158,6 +158,7 @@ module Keyboard.Combo
 -}
 
 import Keyboard.Extra
+import Task
 
 
 -- Model
@@ -169,6 +170,7 @@ type alias Model msg =
     { keys : Keyboard.Extra.State
     , combos : List (KeyCombo msg)
     , toMsg : Msg -> msg
+    , activeCombo : Maybe (KeyCombo msg)
     }
 
 
@@ -198,6 +200,7 @@ init config =
     { keys = Keyboard.Extra.initialState
     , combos = config.combos
     , toMsg = config.toMsg
+    , activeCombo = Nothing
     }
 
 
@@ -205,8 +208,7 @@ init config =
 -}
 subscriptions : Model parentMsg -> Sub parentMsg
 subscriptions model =
-    mapMsgFromCombos model <|
-        Sub.map KeyboardMsg Keyboard.Extra.subscriptions
+    Sub.map model.toMsg Keyboard.Extra.subscriptions
 
 
 
@@ -215,21 +217,27 @@ subscriptions model =
 
 {-| Internal update messages
 -}
-type Msg
-    = KeyboardMsg Keyboard.Extra.Msg
-    | Reset
+type alias Msg =
+    Keyboard.Extra.Msg
 
 
-{-| Update the internal model
+{-| Update the internal model. The command should be forwarded by the parent `update`.
+
+    update : Msg -> Model -> ( Model, Cmd Msg )
+    update msg model =
+        case msg of
+            ComboMsg msg ->
+                let
+                    ( updatedKeys, comboCmd ) =
+                        Keyboard.Combo.update msg model.keys
+                in
+                    ( { model | keys = updatedKeys }, comboCmd )
+
 -}
-update : Msg -> Model msg -> Model msg
+update : Msg -> Model msg -> ( Model msg, Cmd msg )
 update msg model =
-    case msg of
-        KeyboardMsg msg ->
-            { model | keys = Keyboard.Extra.update msg model.keys }
-
-        Reset ->
-            init model
+    updateActiveCombo
+        { model | keys = Keyboard.Extra.update msg model.keys }
 
 
 
@@ -689,6 +697,33 @@ backTick =
 -- Utils
 
 
+updateActiveCombo : Model msg -> ( Model msg, Cmd msg )
+updateActiveCombo model =
+    let
+        possibleCombo =
+            matchesCombo model
+    in
+        { model | activeCombo = possibleCombo }
+            ! getComboCmd possibleCombo model
+
+
+getComboCmd : Maybe (KeyCombo msg) -> Model msg -> List (Cmd msg)
+getComboCmd possibleCombo model =
+    if possibleCombo == model.activeCombo then
+        []
+    else
+        possibleCombo
+            |> Maybe.map (\combo -> [ performComboTask combo ])
+            |> Maybe.withDefault []
+
+
+performComboTask : KeyCombo msg -> Cmd msg
+performComboTask combo =
+    getComboMsg combo
+        |> Task.succeed
+        |> Task.perform (\x -> x)
+
+
 arePressed : Keyboard.Extra.State -> List Key -> Bool
 arePressed keyTracker keysPressed =
     List.all
@@ -715,20 +750,6 @@ keyList combo =
 
         KeyCombo4 key1 key2 key3 key4 msg ->
             [ key1, key2, key3, key4 ]
-
-
-mapMsgFromCombos : Model msg -> Sub Msg -> Sub msg
-mapMsgFromCombos model sub =
-    matchesCombo model
-        |> Maybe.map getComboMsg
-        |> Maybe.map
-            (\msg ->
-                Sub.batch
-                    [ Sub.map (\_ -> msg) sub
-                    , Sub.map (\_ -> model.toMsg Reset) sub
-                    ]
-            )
-        |> Maybe.withDefault (Sub.map model.toMsg sub)
 
 
 getComboMsg : KeyCombo msg -> msg
