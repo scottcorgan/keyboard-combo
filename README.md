@@ -41,11 +41,7 @@ keyboardCombos =
 
 init : ( Model, Cmd Msg )
 init =
-    { keys =
-        Keyboard.Combo.init
-            { toMsg = ComboMsg
-            , combos = keyboardCombos
-            }
+    { keys = Keyboard.Combo.init keyboardCombos ComboMsg
     , content = "No combo yet"
     }
         ! []
