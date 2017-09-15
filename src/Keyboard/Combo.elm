@@ -1,93 +1,95 @@
 module Keyboard.Combo
     exposing
-        ( KeyCombo
-        , Key
+        ( Key
+        , KeyCombo
         , Model
         , Msg
-        , update
-        , init
-        , subscriptions
+        , a
+        , alt
+        , b
+        , backSlash
+        , backTick
+        , backspace
+        , c
+        , closeBracket
         , combo1
         , combo2
         , combo3
         , combo4
-        , super
+        , comma
         , command
-        , shift
         , control
-        , alt
-        , option
-        , enter
-        , tab
-        , escape
-        , space
-        , backspace
-        , delete
-        , a
-        , b
-        , c
         , d
+        , delete
+        , down
         , e
+        , eight
+        , enter
+        , equals
+        , escape
         , f
+        , five
+        , forwardSlash
+        , four
         , g
         , h
         , i
+        , init
         , j
         , k
         , l
+        , left
         , m
+        , minus
         , n
+        , nine
         , o
+        , one
+        , openBracket
+        , option
         , p
+        , period
         , q
         , r
+        , right
         , s
+        , semicolon
+        , seven
+        , shift
+        , singleQuote
+        , six
+        , space
+        , subscriptions
+        , super
         , t
+        , tab
+        , three
+        , two
         , u
+        , up
+        , update
         , v
         , w
         , x
         , y
         , z
         , zero
-        , one
-        , two
-        , three
-        , four
-        , five
-        , six
-        , seven
-        , eight
-        , nine
-        , left
-        , right
-        , up
-        , down
-        , period
-        , comma
-        , semicolon
-        , singleQuote
-        , minus
-        , equals
-        , openBracket
-        , closeBracket
-        , backSlash
-        , forwardSlash
-        , backTick
         )
 
 {-| Provides helpers to call messages on the given key combinations
 
+
 ## Types
 
 @docs Model, Msg, KeyCombo, Key
+
 
 ## Setup
 
     import Keyboard.Combo
 
     type alias Model =
-        { keys : Keyboard.Combo.Model Msg }
+        { combos : Keyboard.Combo.Model Msg }
 
     type Msg
         = Save
@@ -104,17 +106,16 @@ module Keyboard.Combo
 
     init : ( Model, Cmd Msg )
     init =
-        { keys =
-            Keyboard.Combo.init { toMsg = ComboMsg , combos = keyboardCombos }
+        { combos = Keyboard.Combo.init keyboardCombos ComboMsg }
         }
             ! []
 
-
     subscriptions : Model -> Sub Msg
     subscriptions model =
-        Keyboard.Combo.subscriptions model.keys
+        Keyboard.Combo.subscriptions model.combos
 
 @docs init, subscriptions, update
+
 
 ## Combo Helpers
 
@@ -134,6 +135,7 @@ module Keyboard.Combo
 
 @docs combo1, combo2, combo3, combo4
 
+
 ## Modifiers
 
 @docs super, command, shift, control, alt, option, enter, tab, escape, space, backspace, delete
@@ -143,9 +145,11 @@ module Keyboard.Combo
 
 @docs a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z
 
+
 ## Number Helpers
 
 @docs zero, one, two, three, four, five, six, seven, eight, nine
+
 
 ## Arrow Helpers
 
@@ -155,6 +159,7 @@ module Keyboard.Combo
 ## Punctuation
 
 @docs period, comma, semicolon, singleQuote, minus, equals, openBracket, closeBracket, backSlash, forwardSlash, backTick
+
 -}
 
 import Keyboard.Extra
@@ -194,12 +199,24 @@ type KeyCombo msg
 
 
 {-| Initialize the module
+
+    import Keyboard.Combo
+
+    keyboardCombos : List (Keyboard.Combo.KeyCombo Msg)
+    keyboardCombos =
+        [ Keyboard.Combo.combo2 ( Keyboard.Combo.control, Keyboard.Combo.s ) Save
+        ]
+
+    init : Keyboard.Combo.Model Msg
+    init =
+        Keyboard.Combo.init keyboardCombos ComboMsg
+
 -}
-init : { a | toMsg : Msg -> msg, combos : List (KeyCombo msg) } -> Model msg
-init config =
+init : List (KeyCombo msg) -> (Msg -> msg) -> Model msg
+init combos toMsg =
     { keys = Keyboard.Extra.initialState
-    , combos = config.combos
-    , toMsg = config.toMsg
+    , combos = combos
+    , toMsg = toMsg
     , activeCombo = Nothing
     }
 
@@ -229,9 +246,9 @@ type alias Msg =
             ComboMsg msg ->
                 let
                     ( updatedKeys, comboCmd ) =
-                        Keyboard.Combo.update msg model.keys
+                        Keyboard.Combo.update msg model.combos
                 in
-                    ( { model | keys = updatedKeys }, comboCmd )
+                ( { model | combos = updatedKeys }, comboCmd )
 
 -}
 update : Msg -> Model msg -> ( Model msg, Cmd msg )
@@ -686,7 +703,7 @@ forwardSlash =
     Keyboard.Extra.Quote
 
 
-{-| Helper for a `` ` ``
+{-| Helper for a ```
 -}
 backTick : Key
 backTick =
@@ -703,8 +720,8 @@ updateActiveCombo model =
         possibleCombo =
             matchesCombo model
     in
-        { model | activeCombo = possibleCombo }
-            ! getComboCmd possibleCombo model
+    { model | activeCombo = possibleCombo }
+        ! getComboCmd possibleCombo model
 
 
 getComboCmd : Maybe (KeyCombo msg) -> Model msg -> List (Cmd msg)

@@ -28,11 +28,7 @@ keyboardCombos =
 
 init : ( Model, Cmd Msg )
 init =
-    { keys =
-        Keyboard.Combo.init
-            { toMsg = ComboMsg
-            , combos = keyboardCombos
-            }
+    { combos = Keyboard.Combo.init keyboardCombos ComboMsg
     , content = "No combo yet"
     }
         ! []
@@ -40,7 +36,7 @@ init =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Keyboard.Combo.subscriptions model.keys
+    Keyboard.Combo.subscriptions model.combos
 
 
 
@@ -48,7 +44,7 @@ subscriptions model =
 
 
 type alias Model =
-    { keys : Keyboard.Combo.Model Msg
+    { combos : Keyboard.Combo.Model Msg
     , content : String
     }
 
@@ -79,9 +75,9 @@ update msg model =
         ComboMsg msg ->
             let
                 ( updatedKeys, comboCmd ) =
-                    Keyboard.Combo.update msg model.keys
+                    Keyboard.Combo.update msg model.combos
             in
-                ( { model | keys = updatedKeys }, comboCmd )
+            ( { model | combos = updatedKeys }, comboCmd )
 
 
 
