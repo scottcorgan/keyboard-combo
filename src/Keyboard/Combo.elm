@@ -742,15 +742,41 @@ performComboTask combo =
 
 
 arePressed : Keyboard.Extra.State -> List Key -> Bool
-arePressed keyTracker keysPressed =
+arePressed keyState combo =
     List.all
-        (\key -> Keyboard.Extra.isPressed key keyTracker)
-        keysPressed
+        (\key -> Keyboard.Extra.isPressed key keyState)
+        combo
+
+
+{-| Order the combos so the ones with the most keys come before
+-- ones with the least keys; that way combos like "shift+j" are
+-- prioritized over "j"
+-}
+prioritizeCombos : List (KeyCombo msg) -> List (KeyCombo msg)
+prioritizeCombos combos =
+    List.sortWith
+        (\a b ->
+            let
+                keyListLength c =
+                    List.length (keyList c)
+            in
+                case compare (keyListLength a) (keyListLength b) of
+                    LT ->
+                        GT
+
+                    EQ ->
+                        EQ
+
+                    GT ->
+                        LT
+        )
+        combos
 
 
 matchesCombo : Model msg -> Maybe (KeyCombo msg)
 matchesCombo model =
-    find (\combo -> arePressed model.keys <| keyList combo) model.combos
+    prioritizeCombos model.combos
+        |> find (\combo -> arePressed model.keys (keyList combo))
 
 
 keyList : KeyCombo msg -> List Key
