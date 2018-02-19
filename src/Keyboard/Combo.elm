@@ -700,7 +700,7 @@ backSlash =
 -}
 forwardSlash : Key
 forwardSlash =
-    Keyboard.Extra.Quote
+    Keyboard.Extra.Slash
 
 
 {-| Helper for a ```
