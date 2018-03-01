@@ -21,6 +21,7 @@ keyboardCombos =
     , Keyboard.Combo.combo3 ( Keyboard.Combo.control, Keyboard.Combo.alt, Keyboard.Combo.e ) RandomThing
     , Keyboard.Combo.combo1 Keyboard.Combo.j CursorDown
     , Keyboard.Combo.combo2 ( Keyboard.Combo.shift, Keyboard.Combo.j ) JoinLines
+    , Keyboard.Combo.combo3 ( Keyboard.Combo.shift, Keyboard.Combo.alt, Keyboard.Combo.j ) AnotherRandom
     ]
 
 
@@ -59,6 +60,7 @@ type Msg
     = Save
     | SelectAll
     | RandomThing
+    | AnotherRandom
     | CursorDown
     | JoinLines
     | ComboMsg Keyboard.Combo.Msg
@@ -81,6 +83,9 @@ update msg model =
 
         JoinLines ->
             { model | content = "Join Lines" } ! []
+
+        AnotherRandom ->
+            { model | content = "Another Random Thing" } ! []
 
         ComboMsg msg ->
             let
@@ -107,6 +112,7 @@ view model =
         , ul []
             [ li [] [ text "Cursor Down: j" ]
             , li [] [ text "Join lines: shift+j" ]
+            , li [] [ text "Another Random: alt+shift+j" ]
             ]
         , div []
             [ strong [] [ text "Current command: " ]
