@@ -1,42 +1,48 @@
 module Main exposing (..)
 
+import Browser
 import Html exposing (..)
 import Keyboard.Combo
+    exposing
+        ( global
+        , control
+        , alt
+        , shift
+        , press
+        )
+import Keyboard.Key exposing (a, s, e)
 
 
-main : Program Never Model Msg
+main : Program {} Model Msg
 main =
-    Html.program
+    Browser.document
         { subscriptions = subscriptions
-        , init = init
+        , init = \_ -> ( { content = "Nothing pressed" }, Cmd.none )
         , update = update
         , view = view
         }
 
 
-keyboardCombos : List (Keyboard.Combo.KeyCombo Msg)
-keyboardCombos =
-    [ Keyboard.Combo.combo2 ( Keyboard.Combo.control, Keyboard.Combo.s ) Save
-    , Keyboard.Combo.combo2 ( Keyboard.Combo.control, Keyboard.Combo.a ) SelectAll
-    , Keyboard.Combo.combo3 ( Keyboard.Combo.control, Keyboard.Combo.alt, Keyboard.Combo.e ) RandomThing
-    ]
 
-
-
+-- keyboardCombos : List (Keyboard.Combo.KeyCombo Msg)
+-- keyboardCombos =
+--     [ Keyboard.Combo.combo2 ( Keyboard.Combo.control, Keyboard.Combo.s ) Save
+--     , Keyboard.Combo.combo2 ( Keyboard.Combo.control, Keyboard.Combo.a ) SelectAll
+--     , Keyboard.Combo.combo3 ( Keyboard.Combo.control, Keyboard.Combo.alt, Keyboard.Combo.e ) RandomThing
+--     ]
 -- Init
-
-
-init : ( Model, Cmd Msg )
-init =
-    { combos = Keyboard.Combo.init keyboardCombos ComboMsg
-    , content = "No combo yet"
-    }
-        ! []
 
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Keyboard.Combo.subscriptions model.combos
+    -- Keyboard.Combo.inputs
+    -- Keyboard.Combo.all
+    -- Keyboard.Combo.custom
+    global
+        [ press [ control, shift ] a SelectAll
+        , press [ control, shift ] s Save
+        , press [ control, alt ] e RandomThing
+        ]
 
 
 
@@ -44,9 +50,7 @@ subscriptions model =
 
 
 type alias Model =
-    { combos : Keyboard.Combo.Model Msg
-    , content : String
-    }
+    { content : String }
 
 
 
@@ -57,44 +61,44 @@ type Msg
     = Save
     | SelectAll
     | RandomThing
-    | ComboMsg Keyboard.Combo.Msg
+    | Reset
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Save ->
-            { model | content = "Saved" } ! []
+            ( { model | content = "Saved" }, Cmd.none )
 
         SelectAll ->
-            { model | content = "Select All" } ! []
+            ( { model | content = "Select All" }, Cmd.none )
 
         RandomThing ->
-            { model | content = "Random Thing" } ! []
+            ( { model | content = "Random Thing" }, Cmd.none )
 
-        ComboMsg msg ->
-            let
-                ( updatedKeys, comboCmd ) =
-                    Keyboard.Combo.update msg model.combos
-            in
-            ( { model | combos = updatedKeys }, comboCmd )
+        Reset ->
+            ( { model | content = "Nothing Press" }, Cmd.none )
 
 
 
 -- View
 
 
-view : Model -> Html Msg
+view : Model -> Browser.Document Msg
 view model =
-    div []
-        [ h1 [] [ text "Available Key Commands:" ]
-        , ul []
-            [ li [] [ text "Save: Ctrl+s" ]
-            , li [] [ text "Select All: Ctrl+a" ]
-            , li [] [ text "Random Thing: Ctrl+Alt+e" ]
-            ]
-        , div []
-            [ strong [] [ text "Current command: " ]
-            , span [] [ text model.content ]
+    { title = ""
+    , body =
+        [ div []
+            [ h1 [] [ text "Available Key Commands:" ]
+            , ul []
+                [ li [] [ text "Save: Ctrl+Shift+s" ]
+                , li [] [ text "Select All: Ctrl+Shift+a" ]
+                , li [] [ text "Random Thing: Ctrl+Alt+e" ]
+                ]
+            , div []
+                [ strong [] [ text "Current command: " ]
+                , span [] [ text model.content ]
+                ]
             ]
         ]
+    }
