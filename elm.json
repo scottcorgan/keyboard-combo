@@ -3,7 +3,7 @@
     "name": "scottcorgan/keyboard-combo",
     "summary": "Handle keyboard key combinations with type safety in Elm",
     "license": "BSD-3-Clause",
-    "version": "4.0.0",
+    "version": "5.0.0",
     "exposed-modules": [
         "Keyboard.Combo"
     ],
