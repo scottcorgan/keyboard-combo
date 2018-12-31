@@ -1,16 +1,16 @@
-module Main exposing (..)
+module Main exposing (Model, Msg(..), main, subscriptions, update, view)
 
 import Browser
 import Html exposing (..)
 import Keyboard.Combo
     exposing
-        ( global
+        ( alt
         , control
-        , alt
-        , shift
+        , global
         , press
+        , shift
         )
-import Keyboard.Key exposing (a, s, e)
+import Keyboard.Key exposing (a, e, s)
 
 
 main : Program {} Model Msg
@@ -23,21 +23,8 @@ main =
         }
 
 
-
--- keyboardCombos : List (Keyboard.Combo.KeyCombo Msg)
--- keyboardCombos =
---     [ Keyboard.Combo.combo2 ( Keyboard.Combo.control, Keyboard.Combo.s ) Save
---     , Keyboard.Combo.combo2 ( Keyboard.Combo.control, Keyboard.Combo.a ) SelectAll
---     , Keyboard.Combo.combo3 ( Keyboard.Combo.control, Keyboard.Combo.alt, Keyboard.Combo.e ) RandomThing
---     ]
--- Init
-
-
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    -- Keyboard.Combo.inputs
-    -- Keyboard.Combo.all
-    -- Keyboard.Combo.custom
     global
         [ press [ control, shift ] a SelectAll
         , press [ control, shift ] s Save

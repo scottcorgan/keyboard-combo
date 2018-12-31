@@ -1,7 +1,7 @@
-module Keyboard.Combo exposing (..)
+module Keyboard.Combo exposing (Combo(..), Config, DecodedModifiers, Event(..), KeyConfig, Modifier(..), Subscription(..), alt, comboDecoder, control, decodeModifiers, find, findComboMsg, global, globalDecoder, ignoreNodes, isModifierActive, press, shift, super, up)
 
 import Browser.Events
-import Json.Decode as Decode exposing (Decoder, field, at, string, bool)
+import Json.Decode as Decode exposing (Decoder, at, bool, field, string)
 import Keyboard.Key as Key exposing (Key)
 
 
@@ -102,7 +102,7 @@ findComboMsg combos key modifiers =
             List.all (\modifier -> isModifierActive modifier modifiers) keyConfig.modifiers
 
         matchesCombo =
-            (\(Combo ( keyConfig, _ )) ->
+            \(Combo ( keyConfig, _ )) ->
                 case
                     ( key == keyConfig.key
                     , matchesModifiers keyConfig
@@ -113,14 +113,13 @@ findComboMsg combos key modifiers =
 
                     _ ->
                         False
-            )
     in
-        case find matchesCombo combos of
-            Just (Combo ( _, msg )) ->
-                Just msg
+    case find matchesCombo combos of
+        Just (Combo ( _, msg )) ->
+            Just msg
 
-            _ ->
-                Nothing
+        _ ->
+            Nothing
 
 
 isModifierActive : Modifier -> DecodedModifiers -> Bool
@@ -212,5 +211,6 @@ find predicate list =
         first :: rest ->
             if predicate first then
                 Just first
+
             else
                 find predicate rest
